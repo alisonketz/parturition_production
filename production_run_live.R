@@ -56,6 +56,7 @@ setwd('C:/Users/ketza/Documents/GPS_Lotek/Position Data')
 ### Read data 
 ###
 
+
 datalist_temp = list.files(pattern="*.CSV")
 myfiles = lapply(datalist_temp, read.csv,header=TRUE,stringsAsFactors=FALSE)
 notlive=unlist(lapply(myfiles,function(x){x[1,1]}))#remove collars not on deer yet
@@ -345,8 +346,6 @@ hit.df$ID = as.factor(hit.df$ID)
 
 save(hit.df,file=paste("Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-hit.df.Rdata",sep=""))
 
-length(id)
-length(missed.latest)
 
 #dataframe output of anomaly detection results for individuals run
 out.df=data.frame(id,hits.today,last.julian.obs,last.date.obs,results.prob.sum,threshold.p.sum,lower.p.sum,missed.latest,stringsAsFactors = FALSE)
@@ -407,6 +406,16 @@ save(not.out.df,file=paste("Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-n
 
 rmarkdown::render("Report_Generation_live.Rmd",output_file=paste(Sys.Date(),"-",format(Sys.time(),"%p"),"-Prediction-Report.pdf",sep=""),output_dir = "Results")
 
+# html_msg_attach <- mime() %>%
+#   to(c("aketz@wisc.edu")) %>%
+#   from("wtdparturition@gmail.com") %>%
+#   subject(paste("Prediction Results",Sys.Date(),"-",format(Sys.time(),"%p"))) %>%
+#   html_body(print(body.out))%>%
+#   attach_part(print(body.out)) %>%
+#   attach_file(paste("C:/Users/ketza/Documents/parturition_production/Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-Prediction-Report.pdf",sep=""))
+
+
+
 html_msg_attach <- mime() %>%
   to(c("aketz@wisc.edu",
 	"DanielJ.Storm@wisconsin.gov",
@@ -420,7 +429,7 @@ html_msg_attach <- mime() %>%
   subject(paste("Prediction Results",Sys.Date(),"-",format(Sys.time(),"%p"))) %>%
   html_body(print(body.out))%>%
   attach_part(print(body.out)) %>%
-  attach_file(paste("C:/Users/ketza/Documents/parturition_prediction/Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-Prediction-Report.pdf",sep=""))
+  attach_file(paste("C:/Users/ketza/Documents/parturition_production/Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-Prediction-Report.pdf",sep=""))
 
 send_message(html_msg_attach)
 

@@ -150,7 +150,7 @@ names(notrun.df)=c("ID","Last Observed Date")
 notrun.df=notrun.df[order(as.numeric(notrun.df$ID)),]
 
 print(xtable(notrun.df,
-             caption=paste("Individuals not run through the anomaly detector. This table consists of the subset of individuals who do not have new data observed since the parturition window began, i.e. no new data since May 1."),
+             caption=paste("Individuals not run through the anomaly detector. This table consists of the subset of individuals who do not have new data observed since the parturition window began, i.e. no new data since May 10."),
              digits=c(0,0,0),
              align=rep("c",3)),
               type="latex",
@@ -159,7 +159,7 @@ print(xtable(notrun.df,
       comment=FALSE,
       table.placement="H")
 
-# kable(notrun.df,format="latex",caption="Individuals not run through the anomaly detector. This table consists of the subset of individuals who do not have new data observed since the parturition window began, i.e. no new data since May 1.",booktabs=TRUE) %>% kable_styling(position = "center")
+# kable(notrun.df,format="latex",caption="Individuals not run through the anomaly detector. This table consists of the subset of individuals who do not have new data observed since the parturition window began, i.e. no new data since May 10.",booktabs=TRUE) %>% kable_styling(position = "center")
 
 
 ```
