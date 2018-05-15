@@ -299,7 +299,23 @@ lower.p.sum = sapply(out,function(x){tail(x$lower.prob,1)})
 last.julian.obs = sapply(out,function(x){tail(x$results.prob,1)[,3]})
 last.date.obs=sapply(out,function(x){y=tail(x$results.prob,1)[,4];as.character(y)})
 id = as.factor(sapply(out,function(x){x$id}))
+tail.dens=sapply(out,function(x){tail(x$detect.density,1)})
+thresh.dens=sapply(out,function(x){x$threshold.density})
 
+###
+### EDA 5983, to determine why this is different from early PW
+###
+
+# sink("production_run_live_output5983.txt")
+# out[[which(id==5983)]]
+# sink()
+# 
+# rawdata5983=datafiles[which(ids=="5983")]
+# features5983=features[which(id==5983)]
+# save(rawdata5983,file="rawdata5983live.Rdata")
+# save(features5983,file="features5983live.Rdata")
+# out_live_5983=out[[which(id==5983)]]
+# save(out_live_5983,file="out_live_5983.Rdata")
 
 #email body text output
 
@@ -348,7 +364,7 @@ save(hit.df,file=paste("Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-hit.d
 
 
 #dataframe output of anomaly detection results for individuals run
-out.df=data.frame(id,hits.today,last.julian.obs,last.date.obs,results.prob.sum,threshold.p.sum,lower.p.sum,missed.latest,stringsAsFactors = FALSE)
+out.df=data.frame(id,hits.today,last.julian.obs,last.date.obs,results.prob.sum,threshold.p.sum,lower.p.sum,missed.latest,tail.dens,thresh.dens,stringsAsFactors = FALSE)
 
 #subset of individuals who's latest observation was not today's date, or yesterdays date
 not.out.df = out.df[out.df$last.julian.obs!=julian.today & out.df$last.julian.obs!=(julian.today-1),]
@@ -413,7 +429,6 @@ rmarkdown::render("Report_Generation_live.Rmd",output_file=paste(Sys.Date(),"-",
 #   html_body(print(body.out))%>%
 #   attach_part(print(body.out)) %>%
 #   attach_file(paste("C:/Users/ketza/Documents/parturition_production/Results/",Sys.Date(),"-",format(Sys.time(),"%p"),"-Prediction-Report.pdf",sep=""))
-
 
 
 html_msg_attach <- mime() %>%
